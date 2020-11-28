@@ -1,0 +1,51 @@
+﻿<h3>CurrencyConverter</h3>
+<div class="form-group">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label>Dollars</label>
+            <input type="number" class="form-control" placeholder="Dollar value" @bind="DollarValue" @bind:event="oninput" />
+            
+            <input type="number" class="form-control" placeholder="Amount..." @bind="Dollar" @bind:event="oninput" />
+        </div>
+    </div>
+</div>
+@if (_zloty != null)
+{
+    <div class="row blockquote mt-5">
+        <span>@_dollar $ = @_zloty zl </span>
+    </div>
+}
+@code {
+
+    double? _dollarValue = 3.96;
+
+    double? _zloty = null;
+
+    double? _dollar = null;
+
+    public double? Dollar
+    {
+        get => _dollar;
+        set
+        {
+            _dollar = value;
+            ConvertCurrency();
+        }
+    }
+
+    public double? DollarValue
+    {
+        get => _dollarValue;
+        set
+        {
+            _dollarValue = value;
+            ConvertCurrency();
+        }
+    }
+
+    private void ConvertCurrency()
+    {
+        _zloty = _dollarValue * _dollar;
+    }
+
+}

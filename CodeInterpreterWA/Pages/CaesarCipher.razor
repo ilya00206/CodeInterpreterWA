@@ -1,0 +1,68 @@
+﻿@page "/caesarCipher"
+@using System.Text
+<h3>Caesar Cipher</h3>
+
+<div class="row" style="height: 600px;">
+    <div class="col-6 h-100">
+        <input type="number" class="form-control" @bind="@Key" @bind:event="oninput" />
+        <textarea class="form-control h-100" @bind="InputMessage" @bind:event="oninput">
+            
+        </textarea>
+    </div>
+    <div class="col-6 h-100">
+        <h3>Encrypted Message</h3>
+        @EncryptedMessage.ToString()
+    </div>
+</div>
+
+        @code {
+
+            private string _input;
+
+            private int _key;
+
+            public string InputMessage
+            {
+                get => _input;
+                set
+                {
+                    EncryptedMessage.Clear();
+                    _input = value;
+                    Encrypt();
+                }
+            }
+
+            public int Key
+            {
+                get => _key;
+                set
+                {
+                    EncryptedMessage.Clear();
+                    _key = value;
+                    Encrypt();
+                }
+            }
+
+            private char[] message;
+            public StringBuilder EncryptedMessage = new StringBuilder();
+
+            public void Encrypt()
+            {
+                message = _input.ToCharArray();
+                foreach (char letter in message)
+                {
+                    if (!char.IsLetter(letter))
+                    {
+                        EncryptedMessage.Append(letter);
+                    }
+                    else
+                    {
+                        char d = char.IsUpper(letter) ? 'A' : 'a';
+                        EncryptedMessage.Append((char) ((((letter + Key) - d) % 26) + d));
+                    }
+                    
+                }
+
+            }
+
+        }
